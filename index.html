@@ -23,10 +23,16 @@
         <h1>MCVRCREEPER</h1>
         <p class="subtitle">🟩 VR // Minecraft // Chaos 🟩</p>
         
+        <!-- NIEUWE VR KNOP -->
+        <div class="vr-section">
+            <button id="vrButton" class="btn vr-btn">🥽 ENTER VR</button>
+            <p id="vrStatus" class="vr-status">Klik om je headset te activeren</p>
+        </div>
+
         <div class="buttons">
             <a href="#" class="btn primary">💥 Join Discord</a>
             <a href="#" class="btn secondary">▶️ YouTube</a>
-            <a href="#" class="btn secondary">🎮 VRChat</a>
+            <a href="#" class="btn secondary">🎮 VRChat World</a>
         </div>
 
         <div class="card">
@@ -36,5 +42,110 @@
 
         <footer>© 2026 MCVRCREEPER - Made with 💚🟩</footer>
     </div>
+
+<script>
+// VR Knop logica
+const vrButton = document.getElementById('vrButton');
+const vrStatus = document.getElementById('vrStatus');
+
+if (navigator.xr) {
+  navigator.xr.isSessionSupported('immersive-vr').then((supported) => {
+    if (supported) {
+      vrStatus.textContent = "✅ VR Headset gedetecteerd - klaar!";
+      vrButton.addEventListener('click', async () => {
+        try {
+          const session = await navigator.xr.requestSession('immersive-vr');
+          vrStatus.textContent = "🟩 Je zit nu in VR MODE!";
+          vrButton.textContent = "💚 IN VR";
+          // Hier kan je later je VR scene starten
+        } catch(e) {
+          vrStatus.textContent = "❌ VR starten mislukt: " + e.message;
+        }
+      });
+    } else {
+      vrStatus.textContent = "⚠️ Geen VR headset gevonden - opent VRChat link";
+      vrButton.onclick = () => window.open('https://vrchat.com/home', '_blank');
+    }
+  });
+} else {
+  vrStatus.textContent = "📱 WebXR niet ondersteund - opent VRChat in browser";
+  vrButton.onclick = () => window.open('https://vrchat.com/home', '_blank');
+}
+</script>
+</body>
+</html><!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCVRCREEPER - Official</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <div class="pixel-row">
+                <span class="g"></span><span class="g"></span><span class="g"></span><span class="b"></span><span class="b"></span><span class="g"></span><span class="g"></span><span class="b"></span><span class="b"></span><span class="g"></span><span class="g"></span><span class="g"></span>
+            </div>
+            <div class="pixel-row">
+                <span class="g"></span><span class="b"></span><span class="b"></span><span class="g"></span><span class="b"></span><span class="b"></span><span class="g"></span><span class="b"></span><span class="b"></span><span class="g"></span><span class="b"></span><span class="b"></span><span class="g"></span>
+            </div>
+            <div class="pixel-row">
+                <span class="g"></span><span class="g"></span><span class="b"></span><span class="b"></span><span class="b"></span><span class="b"></span><span class="g"></span><span class="g"></span><span class="b"></span><span class="b"></span><span class="b"></span><span class="b"></span><span class="g"></span>
+            </div>
+        </div>
+        
+        <h1>MCVRCREEPER</h1>
+        <p class="subtitle">🟩 VR // Minecraft // Chaos 🟩</p>
+        
+        <!-- NIEUWE VR KNOP -->
+        <div class="vr-section">
+            <button id="vrButton" class="btn vr-btn">🥽 ENTER VR</button>
+            <p id="vrStatus" class="vr-status">Klik om je headset te activeren</p>
+        </div>
+
+        <div class="buttons">
+            <a href="#" class="btn primary">💥 Join Discord</a>
+            <a href="#" class="btn secondary">▶️ YouTube</a>
+            <a href="#" class="btn secondary">🎮 VRChat World</a>
+        </div>
+
+        <div class="card">
+            <h2>Over Mij</h2>
+            <p>SSSss... BOOM! Welkom in de groenste base van de metaverse. Hier bouwen we, exploderen we, en bouwen we opnieuw.</p>
+        </div>
+
+        <footer>© 2026 MCVRCREEPER - Made with 💚🟩</footer>
+    </div>
+
+<script>
+// VR Knop logica
+const vrButton = document.getElementById('vrButton');
+const vrStatus = document.getElementById('vrStatus');
+
+if (navigator.xr) {
+  navigator.xr.isSessionSupported('immersive-vr').then((supported) => {
+    if (supported) {
+      vrStatus.textContent = "✅ VR Headset gedetecteerd - klaar!";
+      vrButton.addEventListener('click', async () => {
+        try {
+          const session = await navigator.xr.requestSession('immersive-vr');
+          vrStatus.textContent = "🟩 Je zit nu in VR MODE!";
+          vrButton.textContent = "💚 IN VR";
+          // Hier kan je later je VR scene starten
+        } catch(e) {
+          vrStatus.textContent = "❌ VR starten mislukt: " + e.message;
+        }
+      });
+    } else {
+      vrStatus.textContent = "⚠️ Geen VR headset gevonden - opent VRChat link";
+      vrButton.onclick = () => window.open('https://vrchat.com/home', '_blank');
+    }
+  });
+} else {
+  vrStatus.textContent = "📱 WebXR niet ondersteund - opent VRChat in browser";
+  vrButton.onclick = () => window.open('https://vrchat.com/home', '_blank');
+}
+</script>
 </body>
 </html>
