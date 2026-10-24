@@ -3,86 +3,78 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>MCVRCREEPER OS v1.1</title>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<title>SpaceOS VR - Microbricks</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#020a02;color:#55ff55;font-family:'Press Start 2P',monospace;overflow:hidden;height:100vh;width:100vw}
-#os{position:relative;width:100%;height:100%;background:radial-gradient(circle at 50% 50%, #0a2a0a 0%, #020a02 80%);transform-style:preserve-3d;transition:transform 0.1s linear}
-.topbar{display:flex;justify-content:space-between;padding:12px 15px;font-size:7px;border-bottom:2px solid #55ff55;background:rgba(0,0,0,0.9)}
-.app-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;padding:30px 20px;max-width:400px;margin:20px auto;transform:translateZ(50px)}
-.app{flex-direction:column;align-items:center;cursor:pointer;display:flex;transition:0.2s}
-.app-icon{width:75px;height:75px;background:#111;border:2px solid #55ff55;box-shadow:0 0 20px #55ff55, 5px 5px 0 #000;display:flex;align-items:center;justify-content:center;font-size:32px}
-.app-label{font-size:6px;margin-top:8px;text-align:center;color:#aaffaa}
-#enableGyro{position:fixed;inset:0;background:#020a02;z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px;text-align:center}
-#enableGyro h1{font-size:14px;line-height:1.6;margin-bottom:20px}
-#enableGyro button{background:#55ff55;color:#000;border:4px solid #000;padding:20px 30px;font-family:'Press Start 2P';font-size:10px;box-shadow:6px 6px 0 #000;cursor:pointer}
-.vr-toggle{position:fixed;bottom:20px;right:15px;z-index:50;background:#00ff88;color:#000;border:3px solid #000;padding:14px 20px;font-family:'Press Start 2P';font-size:9px;box-shadow:5px 5px 0 #000;cursor:pointer}
-#vrOverlay{position:fixed;inset:0;display:none;z-index:200;background:#000}
-#vrOverlay.on{display:flex}
-.vr-eye{flex:1;border-right:2px solid #55ff55;display:flex;align-items:center;justify-content:center;flex-direction:column;transform:perspective(500px)}
+body{background:#070f1e;color:white;height:100vh;width:100vw;overflow:hidden;font-family:-apple-system, BlinkMacSystemFont, sans-serif;perspective:1200px}
+#space{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform 0.15s ease-out;display:flex;align-items:center;justify-content:center}
+.panel{position:absolute;background:#161c28;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,0.8);overflow:hidden;transform-style:preserve-3d}
+.panel-header{padding:14px 18px;font-size:18px;font-weight:500;display:flex;justify-content:space-between;align-items:center}
+#notities{width:260px;height:180px;left:18%;top:35%;transform:rotateY(25deg) rotateX(5deg);background:#1e1e1e}
+#browser{width:380px;height:260px;left:50%;top:32%;transform:translateX(-50%) rotateX(8deg);background:#1a1d27;z-index:2}
+#browser .panel-header{background:#1e1e1e;justify-content:center;font-size:22px}
+#spotify{width:260px;height:180px;right:18%;top:35%;transform:rotateY(-25deg) rotateX(5deg);background:#121212}
+#spotify .panel-header{color:#1DB954;font-style:italic}
+.panel-content{padding:15px;height:calc(100% - 50px);overflow:auto}
+#dock{position:absolute;bottom:12%;left:50%;transform:translateX(-50%) rotateX(25deg) translateZ(-100px);background:#1a1f2e;padding:14px 30px;border-radius:12px;display:flex;gap:22px;box-shadow:0 10px 40px rgba(0,0,0,0.6)}
+.dot{width:26px;height:26px;border-radius:50%;cursor:pointer;transition:0.2s;box-shadow:inset 0 0 10px rgba(255,255,255,0.2)}
+.dot:hover{transform:scale(1.3)} .dot.blue{background:#3b82f6} .dot.green{background:#22c55e} .dot.purple{background:#6366f1} .dot.yellow{background:#eab308} .dot.gray{background:#9ca3af}
+#startScreen{position:fixed;inset:0;background:#070f1e;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+#startScreen button{background:white;color:#070f1e;border:0;padding:18px 35px;border-radius:30px;font-weight:bold;font-size:16px;cursor:pointer;margin-top:20px}
+iframe{width:100%;height:100%;border:0;background:white;border-radius:0 0 12px 12px}
+textarea{width:100%;height:100%;background:transparent;border:0;color:white;resize:none;outline:none;font-size:14px}
 </style>
 </head>
 <body>
-<div id="os">
-  <div class="topbar"><span>MCVR OS v1.1 • GYRO: <span id="gyroStatus">OFF</span></span><span id="clock">--:--</span><span>VR READY</span></div>
-  <div class="app-grid">
-    <div class="app"><div class="app-icon">💬</div><div class="app-label">CREEPER<br>CHAT</div></div>
-    <div class="app"><div class="app-icon">🗂️</div><div class="app-label">MINE<br>EXPLORER</div></div>
-    <div class="app"><div class="app-icon">🌐</div><div class="app-label">BLOCK<br>BROWSER</div></div>
-    <div class="app"><div class="app-icon">🖼️</div><div class="app-label">GALLERY</div></div>
-    <div class="app"><div class="app-icon">⛏️</div><div class="app-label">FORGE</div></div>
-    <div class="app"><div class="app-icon">⚙️</div><div class="app-label">SETTINGS</div></div>
-  </div>
+<div id="space">
+  <div id="notities" class="panel"><div class="panel-header"><span>Notities</span><span style="opacity:0.5">⋯</span></div><div class="panel-content"><textarea placeholder="Typ hier je notities...&#10;&#10;🟩 MCVR Notes actief">🟩 MCVR OS - Ideas:
+- Nieuwe VR world bouwen
+- Creeper base upgraden
+- SpaceOS fixen 💚</textarea></div></div>
+  
+  <div id="browser" class="panel"><div class="panel-header"><span>Browser</span></div><div class="panel-content" style="padding:0"><iframe src="https://microbricks.github.io" id="browserFrame"></iframe></div></div>
+  
+  <div id="spotify" class="panel"><div class="panel-header"><span>Spotify</span></div><div class="panel-content"><p style="opacity:0.6;font-size:13px">🎵 Nu speelt:</p><p style="margin-top:10px;font-weight:bold">MCVRCREEPER - VR Mix</p><p style="opacity:0.5;font-size:12px;margin-top:5px">SpaceOS VR • 3:42</p><div style="margin-top:20px;height:4px;background:#333;border-radius:2px"><div style="width:45%;height:100%;background:#1DB954;border-radius:2px"></div></div></div></div>
+
+  <div id="dock"><div class="dot blue" onclick="focusPanel('notities')"></div><div class="dot green" onclick="focusPanel('browser')"></div><div class="dot purple" onclick="focusPanel('spotify')"></div><div class="dot yellow"></div><div class="dot gray" onclick="toggleVR()"></div></div>
 </div>
 
-<button class="vr-toggle" onclick="toggleVR()">🥽 ENTER VR</button>
-
-<div id="enableGyro">
-  <h1>MCVRCREEPER OS v1.1<br><br><span style="color:#aaffaa;font-size:8px">GYRO VR MODE</span></h1>
-  <p style="font-family:Arial;font-size:14px;color:#ccffcc;margin-bottom:25px;line-height:1.5">Beweeg je telefoon rond om te kijken.<br>Dit is je VR OS zonder headset.</p>
-  <button onclick="startGyro()">🟩 ACTIVEER GYRO + START OS</button>
-  <p style="font-size:6px;margin-top:20px;color:#666">iPhone vraagt om toestemming - klik op STA TOE</p>
+<div id="startScreen">
+  <h1 style="font-weight:300;letter-spacing:2px">SpaceOS VR</h1>
+  <p style="opacity:0.6;margin-top:10px;font-size:14px">microbricks.github.io • Gyro Edition</p>
+  <button onclick="start()">▶ START VR OS</button>
+  <p style="opacity:0.4;font-size:11px;margin-top:15px">Beweeg je telefoon na start</p>
 </div>
-
-<div id="vrOverlay"><div class="vr-eye"><div class="app-icon">💬</div><p style="margin-top:10px;font-size:8px">LEFT</p></div><div class="vr-eye"><div class="app-icon">🌐</div><p style="margin-top:10px;font-size:8px">RIGHT</p><button onclick="toggleVR()" style="margin-top:20px;padding:10px;background:#55ff55;border:0;font-family:'Press Start 2P';font-size:8px">EXIT VR</button></div></div>
 
 <script>
-let gyroEnabled = false;
-function startGyro(){
-  // iOS 13+ needs permission
+function start(){
   if(typeof DeviceOrientationEvent.requestPermission === 'function'){
-    DeviceOrientationEvent.requestPermission().then(res=>{
-      if(res === 'granted') enableGyroNow();
-    }).catch(()=>alert('Geef toestemming voor beweging'));
-  } else {
-    enableGyroNow();
-  }
+    DeviceOrientationEvent.requestPermission().then(r=>{if(r==='granted') enable()}).catch(()=>enable());
+  } else enable();
 }
-function enableGyroNow(){
-  document.getElementById('enableGyro').style.display='none';
-  document.getElementById('gyroStatus').textContent='ON';
-  document.getElementById('gyroStatus').style.color='#00ff88';
-  gyroEnabled = true;
-  window.addEventListener('deviceorientation', handleGyro);
+function enable(){
+  document.getElementById('startScreen').style.display='none';
+  window.addEventListener('deviceorientation', e=>{
+    const x = (e.gamma || 0) / 2;
+    const y = (e.beta || 0) / 4;
+    document.getElementById('space').style.transform = `rotateY(${x}deg) rotateX(${y-50}deg)`;
+  });
+  // muis fallback voor PC
+  window.addEventListener('mousemove', e=>{
+    const x = (e.clientX / window.innerWidth - 0.5) * 30;
+    const y = (e.clientY / window.innerHeight - 0.5) * -20;
+    document.getElementById('space').style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+  });
 }
-function handleGyro(e){
-  if(!gyroEnabled) return;
-  const x = e.gamma / 3; // left-right
-  const y = e.beta / 4; // up-down, smaller = rustiger
-  document.getElementById('os').style.transform = `rotateY(${x}deg) rotateX(${y-40}deg)`;
+function focusPanel(id){
+  const p = document.getElementById(id);
+  p.style.transform += ' translateZ(80px)';
+  p.style.boxShadow = '0 30px 80px rgba(0,0,0,0.9), 0 0 0 2px #3b82f6';
+  setTimeout(()=>{p.style.transform = p.style.transform.replace(' translateZ(80px)',''); p.style.boxShadow='0 20px 60px rgba(0,0,0,0.8)'}, 800);
 }
 function toggleVR(){
-  const ov = document.getElementById('vrOverlay');
-  ov.classList.toggle('on');
-  if(ov.classList.contains('on')){
-    // In VR mode willen we 2x gyro effect
-    document.querySelector('.vr-toggle').textContent = '❌ EXIT VR';
-  } else {
-    document.querySelector('.vr-toggle').textContent = '🥽 ENTER VR';
-  }
+  if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
 }
-setInterval(()=>{document.getElementById('clock').textContent=new Date().toLocaleTimeString().slice(0,5)},1000);
 </script>
 </body>
 </html>
